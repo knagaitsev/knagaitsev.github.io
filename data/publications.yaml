@@ -1,0 +1,13 @@
+- title: "First Item"
+  description: "This is the first item."
+  label: "Some Label"
+  preprint: "Preprint"
+  link: "https://example.com"
+  github: "https://github.com/example"
+
+- title: "Second Item"
+  description: "This is the second item."
+  label: "Another Label"
+  preprint: "Preprint"
+  link: "https://example.com/2"
+  github: "https://github.com/example2"
