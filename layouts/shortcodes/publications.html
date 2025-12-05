@@ -5,19 +5,20 @@
   </h3>
 
   <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-0 text-left">
-    {{ .description }}
+    {{ .authors | safeHTML }}
   </p>
 
   <div class="flex justify-between items-center mt-4 text-primary-600 dark:text-primary-400">
     <p class="text-sm text-neutral-700 dark:text-neutral-300 mt-0 mb-0">
-      <strong>{{ .label }}</strong>
+      <strong>{{ .date }}</strong>
     </p>
     <div class="flex items-center gap-4">
-      <p class="text-sm text-neutral-700 dark:text-neutral-300 mt-0 mb-0">
-        {{ .preprint }}
-      </p>
+      <!-- <p class="text-sm text-neutral-700 dark:text-neutral-300 mt-0 mb-0">
+        {{ .label }}
+      </p> -->
       <a href="{{ .link }}" class="flex items-center hover:underline gap-1">
-        {{ partial "icon.html" "link" }}
+        {{ .label }}
+        <!-- {{ partial "icon.html" "link" }} -->
       </a>
       <a href="{{ .github }}" class="flex items-center hover:underline gap-1">
         {{ partial "icon.html" "github" }}
