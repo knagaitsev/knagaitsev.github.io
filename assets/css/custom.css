@@ -5,3 +5,16 @@
 .dark\:prose-invert a {
   text-decoration-color: rgba(var(--color-primary-400), 1);
 }
+
+.logo svg {
+  max-height: 3.5rem;
+  max-width: 2.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  transition: transform 0.2s ease;
+}
+
+.logo:hover svg {
+  transform: scale(1.08);
+}
