@@ -15,10 +15,10 @@
  pageRef = "projects"
  weight = 10
 
-[[main]]
- name = "Publications"
- pageRef = "publications"
- weight = 10
+# [[main]]
+#  name = "Publications"
+#  pageRef = "publications"
+#  weight = 10
 
 [[main]]
  name = "Blog"
@@ -77,13 +77,13 @@
 [[main]]
   identifier = "github"
   pre = "github"
-  url = "https://github.com/nunocoracao/blowfish"
+  url = "https://github.com/knagaitsev"
   weight = 300
 
 [[main]]
   identifier = "linkedin"
   pre = "linkedin"
-  url = "https://github.com/nunocoracao/blowfish"
+  url = "https://www.linkedin.com/in/kirn/"
   weight = 400
 
 

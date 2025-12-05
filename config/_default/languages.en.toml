@@ -22,6 +22,6 @@ title = "Kirill Nagaitsev"
   # headline = "I'm only human"
   # bio = "A little bit about you"
   links = [
-    { github = "https://github.com/username" },
-    { linkedin = "https://linkedin.com/in/username" },
+    { github = "https://github.com/knagaitsev" },
+    { linkedin = "https://linkedin.com/in/kirn/" },
   ]
