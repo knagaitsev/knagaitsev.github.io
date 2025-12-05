@@ -10,14 +10,14 @@
   date: "2025-09"
   label: "Tech Report"
   link: "https://constellation-project.net/papers/beandip.pdf"
-  github: "https://github.com/pike-project/pike"
+  github: ""
 
 - title: "Village: From High Level Parallelism to High Performance"
   authors: "<b>Kirill Nagaitsev</b>, Griffin Dube, Karl Hallsby, Peizhi Liu, Qinze Jiang, Lucas Myers, David Krasowska, Alexander Butler, Ruiqi Xu, Peter Dinda"
   date: "2025-08"
   label: "Tech Report"
   link: "https://www.mccormick.northwestern.edu/computer-science/documents/nu-cs-2025-33.pdf"
-  github: "https://github.com/pike-project/pike"
+  github: ""
 
 - title: "funcX: Federated Function as a Service for Science"
   authors: "Zhuozhao Li, Ryan Chard, Yadu Babuji, Ben Galewsky, Tyler Skluzacek, <b>Kirill Nagaitsev</b>, Anna Woodard, Ben Blaiszik, Josh Bryan, Daniel S. Katz, Ian Foster, Kyle Chard"
