@@ -32,7 +32,7 @@ hotlinkFeatureImage = false
 # imagePosition = "50% 50%"
 
 # highlightCurrentMenuArea = true
-# smartTOC = true
+smartTOC = true
 # smartTOCHideUnfocusedChildren = true
 
 fingerprintAlgorithm = "sha512" # Valid values are "sha512" (default), "sha384", "sha256"
@@ -48,7 +48,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
   showCopyright = true
   showThemeAttribution = false
   showAppearanceSwitcher = false
-  showScrollToTop = true
+  showScrollToTop = false
 
 [homepage]
   layout = "profile" # valid options: page, profile, hero, card, background, custom
@@ -56,7 +56,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
   showRecent = false
   showRecentItems = 5
   showMoreLink = false
-  showMoreLinkDest = "/posts/"
+  showMoreLinkDest = "/blog/"
   cardView = false
   cardViewScreenWidth = false
   layoutBackgroundBlur = false # only used when layout equals background
@@ -103,7 +103,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
   showSummary = false
   showViews = false
   showLikes = false
-  showTableOfContents = false
+  showTableOfContents = true
   showCards = false
   orderByWeight = false
   groupByYear = false

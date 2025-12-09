@@ -1,8 +1,8 @@
-.prose {
+.prose:not(.max-w-full) {
   max-width: 70ch !important;
 }
 
-.dark\:prose-invert a {
+.dark\:prose-invert .publications-container a {
   text-decoration-color: rgba(var(--color-primary-400), 1);
 }
 
