@@ -1,6 +1,6 @@
 ---
-title: "Showcase"
-description: "See what's possible with Blowfish."
+title: "Blog"
+description: "Blog description"
 cascade:
   showEdit: false
   showReadingTime: false
@@ -9,10 +9,10 @@ cascade:
   showViews: false
 ---
 
-{{< lead >}}
-See what's possible with Blowfish.
-{{< /lead >}}
+<!-- {{< lead >}}
+Blog header
+{{< /lead >}} -->
 
-This section contains links to example templates and pages created using Blowfish to get you inspired.
+Welcome to my blog!
 
 ---
