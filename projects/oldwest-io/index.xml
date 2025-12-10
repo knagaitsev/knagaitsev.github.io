@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oldwest.io on Kirill Nagaitsev</title>
+    <link>https://example.org/projects/oldwest-io/</link>
+    <description>Recent content in Oldwest.io on Kirill Nagaitsev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>knagaitsev@u.northwestern.edu (Kirill Nagaitsev)</managingEditor>
+    <webMaster>knagaitsev@u.northwestern.edu (Kirill Nagaitsev)</webMaster>
+    <copyright>© 2025 Kirill Nagaitsev</copyright>
+    <lastBuildDate>Sun, 01 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://example.org/projects/oldwest-io/index.xml" rel="self" type="application/rss+xml" />
+    
+  </channel>
+</rss>
