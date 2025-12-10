@@ -27,7 +27,7 @@ jobs:
     - name: Install Hugo
       uses: peaceiris/actions-hugo@v2
       with:
-        hugo-version: '0.140.1'  # Use a specific Hugo version if needed
+        hugo-version: '0.148.0'  # Use a specific Hugo version if needed
 
     - name: Build
       run: npm run build
