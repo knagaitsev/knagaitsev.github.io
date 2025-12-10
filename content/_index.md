@@ -1,6 +1,6 @@
 ---
 title: "Kirill Nagaitsev"
-description: "This page was built using the Blowfish theme for Hugo."
+description: "Kirill (Kir) Nagaitsev is a Ph.D. student at Northwestern University. His research interests mainly lie in operating system and compiler support for parallel computing"
 ---
 
 Hi, I'm Kir!

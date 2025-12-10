@@ -1,6 +1,6 @@
 ---
 title: "Blog"
-description: "Blog description"
+description: "Kirill Nagaitsev's Blog"
 cascade:
   showEdit: false
   showReadingTime: false
