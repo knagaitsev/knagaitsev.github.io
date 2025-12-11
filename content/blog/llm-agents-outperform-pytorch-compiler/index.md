@@ -9,13 +9,17 @@ showAuthor: false
 
 ## GPU Optimization Problem
 
-New generations of AI datacenter GPUs are now being rolled out on an annual basis, forcing software support to play a constant game of catch-up. To make the problem worse, new AI/ML model techniques are being proposed constantly. This leads to a set of workloads that ML compiler engineers are unlikely to optimize for, unless a particular technique gains a lot of traction.
+New generations of AI datacenter GPUs are now being rolled out on an annual basis, forcing software support to play a constant game of catch-up. To make the problem worse, new AI/ML model techniques are being proposed constantly. This leads to a set of workloads that library/compiler engineers are unlikely to optimize for, unless an idea gains significant traction from the community.
 
-GPU performance optimization using CUDA or Triton is a notoriously challenging process. This is why software lags behind the latest generation of NVIDIA GPUs, and compiler engineers are forced to optimize only for the most critical workloads.
+<!-- GPU performance optimization using CUDA or Triton is a notoriously challenging process. This is why software lags behind the latest generation of NVIDIA GPUs, and ML library/compiler engineers are forced to optimize only for the most critical workloads. -->
 
-Without excellent compiler/inference support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it's becoming more difficult for AI researchers to challenge conventional wisdom.
+Without excellent library/compiler support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it's becoming more difficult for AI/ML researchers to challenge conventional wisdom.
 
-Can we find a way to eliminate manual engineering from the equation using LLMs, and what would such a system look like?
+To name one example, [H3](https://arxiv.org/abs/2212.14052) showed the viability of replacing standard Transformers with a hybrid architecture that integrates state space model (SSM) layers in December 2022. However, achieving competitive performance required expert-level custom GPU kernel development. The idea of hybrid models is **only now** being adopted into modern LLM inference engines, 3 years later [[vLLM announcement](https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/), [SGLang announcement](https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/)].
+
+Can we find a way to eliminate manual GPU performance engineering from the equation using LLMs, and what would such a system look like? Here, we take a look at this problem, from the perspective of PyTorch inference optimization.
+
+## Prior Work
 
 ## Logical Framework
 
