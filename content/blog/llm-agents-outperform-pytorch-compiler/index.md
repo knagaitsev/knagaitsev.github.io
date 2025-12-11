@@ -13,7 +13,9 @@ New generations of AI datacenter GPUs are now being rolled out on an annual basi
 
 GPU performance optimization using CUDA or Triton is a notoriously challenging process. This is why software lags behind the latest generation of NVIDIA GPUs, and compiler engineers are forced to optimize only for the most critical workloads.
 
-Without excellent compiler support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it's becoming more difficult for AI researchers to challenge conventional wisdom. Can we find a way to eliminate manual engineering from the equation, and what would such a system look like?
+Without excellent compiler/inference support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it's becoming more difficult for AI researchers to challenge conventional wisdom.
+
+Can we find a way to eliminate manual engineering from the equation using LLMs, and what would such a system look like?
 
 ## Logical Framework
 
