@@ -20,7 +20,7 @@ replyByEmail = false
 # robots = ""
 
 disableImageOptimization = true
-disableImageOptimizationMD = false
+disableImageOptimizationMD = true
 disableTextInHeader = false
 disableImageZoom = true
 # backgroundImageWidth = 1200
