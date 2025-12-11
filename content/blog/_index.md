@@ -13,6 +13,6 @@ cascade:
 Blog header
 {{< /lead >}} -->
 
-Welcome to my blog!
+<!-- Below you will find posts about my work and other miscellaneous interests -->
 
 ---
