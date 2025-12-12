@@ -18,3 +18,7 @@
 .logo:hover svg {
   transform: scale(1.08);
 }
+
+.thumbnail_card {
+  min-width: auto !important;
+}
