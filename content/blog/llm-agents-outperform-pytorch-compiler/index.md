@@ -1,7 +1,7 @@
 ---
 title: "How LLM-Based Agents Outperform the PyTorch Compiler by 2×"
 # title: "LLM-Based Agents Can Outperform the PyTorch Compiler by 2×"
-description: "TODO"
+description: "Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve."
 date: 2025-12-10
 draft: false
 showAuthor: false
@@ -9,7 +9,7 @@ showAuthor: false
 
 This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with Luka Grbcic, Samuel Williams, and Costin Iancu.
 
-We introduce a logical framework for comparing multiagent PyTorch optimization systems, along with our implementations within it, collectively known as *PyTorch Inference Kernel Evolution* (PIKE). We explore the configuration space with the help of [OpenEvolve](), and we manage to outperform PyTorch's eager execution mode by up to 2.88×!
+We introduce a logical framework for comparing multi-agent PyTorch optimization systems, along with our implementations within it, collectively known as *PyTorch Inference Kernel Evolution* (PIKE). We explore the configuration space with the help of [OpenEvolve](), and we manage to outperform PyTorch's eager execution mode by up to 2.88×!
 
 ## GPU Optimization Problem
 
