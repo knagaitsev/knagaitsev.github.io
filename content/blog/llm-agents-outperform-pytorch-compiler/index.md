@@ -1,11 +1,15 @@
 ---
-title: "How LLM-Based Agents Outperform the PyTorch Compiler by 2.0×"
+title: "How LLM-Based Agents Outperform the PyTorch Compiler by 2×"
 # title: "LLM-Based Agents Can Outperform the PyTorch Compiler by 2×"
 description: "TODO"
 date: 2025-12-10
 draft: false
 showAuthor: false
 ---
+
+This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with Luka Grbcic, Samuel Williams, and Costin Iancu.
+
+We introduce a logical framework for comparing multiagent PyTorch optimization systems, along with our implementations within it, collectively known as *PyTorch Inference Kernel Evolution* (PIKE). We explore the configuration space with the help of [OpenEvolve](), and we manage to outperform PyTorch's eager execution mode by up to 2.88×!
 
 ## GPU Optimization Problem
 
@@ -15,9 +19,14 @@ New generations of AI datacenter GPUs are now being rolled out on an annual basi
 
 Without excellent library/compiler support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it's becoming more difficult for AI/ML researchers to challenge conventional wisdom.
 
-To name one example, [H3](https://arxiv.org/abs/2212.14052) showed the viability of replacing standard Transformers with a hybrid architecture that integrates state space model (SSM) layers in December 2022. However, achieving competitive performance required expert-level custom GPU kernel development. The idea of hybrid models is **only now** being adopted into modern LLM inference engines, 3 years later [[vLLM announcement](https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/), [SGLang announcement](https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/)].
+To name one example, in December 2022, [H3](https://arxiv.org/abs/2212.14052) showed the viability of replacing the standard Transformer architecture in language modeling with a hybrid architecture that integrates state space model (SSM) layers. However, achieving competitive performance in their paper required expert-level GPU kernel development.
+Adoption of the idea into modern LLM inference engines too **3 years**, mainly due to GPU memory management challenges [[vLLM announcement](https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/), [SGLang announcement](https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/)].
 
-Can we find a way to eliminate manual GPU performance engineering from the equation using LLMs, and what would such a system look like? Here, we take a look at this problem, from the perspective of PyTorch inference optimization.
+<!-- The idea is **only now** being adopted into modern LLM inference engines, and doing so took **3 years** mainly due to GPU memory management adjustments [[vLLM announcement](https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/), [SGLang announcement](https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/)]. -->
+
+<!-- Furthermore, adoption on mainstream LLM inference engines took 3 years, -->
+
+Can we find a way to eliminate manual GPU performance engineering from the equation using LLMs, and what would such a system look like?
 
 ## Prior Work
 
