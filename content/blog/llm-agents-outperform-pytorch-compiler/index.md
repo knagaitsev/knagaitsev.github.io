@@ -7,7 +7,7 @@ draft: false
 showAuthor: false
 ---
 
-This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with Luka Grbcic, Samuel Williams, and Costin Iancu.
+This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with [Luka Grbcic](https://www.linkedin.com/in/luka-grb%C4%8Di%C4%87-a6739383/), [Samuel Williams](https://profiles.lbl.gov/20370-samuel-williams), and [Costin Iancu](https://www.linkedin.com/in/costin-iancu-5a8b011/).
 
 We introduce a logical framework for comparing multi-agent PyTorch optimization systems, along with our implementations within it, collectively known as *PyTorch Inference Kernel Evolution* (PIKE). We explore the configuration space with the help of [OpenEvolve](), and we manage to outperform PyTorch's eager execution mode by up to 2.88×!
 
@@ -36,18 +36,18 @@ Can we find a way to eliminate manual GPU performance engineering from the equat
 
 <!-- Thus, GPU performance optimization has become a crucial aspect of modern AI inference.  -->
 
-![PIKE Cost Graph](logical-framework-simplified.png)
+![PIKE Logical Framework Simplified](logical-framework-simplified.png)
 
-![PIKE Cost Graph](pike-b-diagram.png)
+![PIKE-B Diagram](pike-b-diagram.png)
 
-![PIKE Cost Graph](pike-cost-level-3-pike.png)
+![PIKE Level 3-pike Cost Graph](pike-cost-level-3-pike.png)
 
-![PIKE Cost Graph](pike-speedup-level-3-pike.png)
+![PIKE Level 3-pike Speedup](pike-speedup-level-3-pike.png)
 
 <!-- ![](pike-speedup-level-5.png) -->
 
 <div class="flex justify-center">
-  <img src="pike-speedup-level-5.png" alt="My image" width="520" />
+  <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" width="520" />
 </div>
 
 <!-- ![](pike-hist-1.png)
@@ -55,9 +55,9 @@ Can we find a way to eliminate manual GPU performance engineering from the equat
 ![](pike-hist-2.png) -->
 
 <div class="flex justify-center">
-  <img src="pike-hist-1.png" alt="My image" width="500" />
+  <img src="pike-hist-1.png" alt="PIKE code histograms 1" width="500" />
 </div>
 
 <div class="flex justify-center">
-  <img src="pike-hist-2.png" alt="My image" width="500" />
+  <img src="pike-hist-2.png" alt="PIKE code histograms 2" width="500" />
 </div>
