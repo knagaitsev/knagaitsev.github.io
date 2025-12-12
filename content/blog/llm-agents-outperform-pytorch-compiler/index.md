@@ -7,7 +7,7 @@ draft: false
 showAuthor: false
 ---
 
-This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with [Luka Grbcic](https://www.linkedin.com/in/luka-grb%C4%8Di%C4%87-a6739383/), [Samuel Williams](https://profiles.lbl.gov/20370-samuel-williams), and [Costin Iancu](https://www.linkedin.com/in/costin-iancu-5a8b011/).
+This post gives an overview of our recent paper preprint, *[Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems](https://arxiv.org/abs/2511.16964)*, which I authored along with [Luka Grbcic](https://lukagrbcic.github.io/), [Samuel Williams](https://profiles.lbl.gov/20370-samuel-williams), and [Costin Iancu](https://www.linkedin.com/in/costin-iancu-5a8b011/).
 
 We introduce a logical framework for comparing multi-agent PyTorch optimization systems, along with our implementations within it, collectively known as *PyTorch Inference Kernel Evolution* (PIKE). We explore the configuration space with the help of [OpenEvolve](https://github.com/algorithmicsuperintelligence/openevolve), and we manage to outperform PyTorch's eager execution mode by up to 2.88×!
 
@@ -32,8 +32,8 @@ Can we find a way to eliminate manual GPU performance engineering from the equat
 
 Our target GPU was an NVIDIA H100. We used a modified version of [KernelBench](https://arxiv.org/abs/2502.10517), a benchmark suite covering a range of machine learning architectures in PyTorch. We target these key levels from the suite:
 
-- **Level 3** (Curated blocks from older models): RNNs, Attention, Convolutions
-- **Level 5** (Frontier workloads from SOTA 2024 models): DeepSeek-V3, Llama 3, Mamba-2, Hunyuan Video
+- **Level 3 (Curated blocks from older models):** RNNs, Attention, Convolutions
+- **Level 5 (Frontier workloads from SOTA 2024 models):** DeepSeek-V3, Llama 3, Mamba-2, Hunyuan Video
 
 Numerous prior works have shown effective LLM-based optimization systems that target KernelBench tasks, but the dynamics of multi-agent systems for this performance engineering problem remain unexplored. Thus, we have developed a logical framework to analyze these systems and fill the gap!
 
@@ -43,7 +43,23 @@ Numerous prior works have shown effective LLM-based optimization systems that ta
 
 ![PIKE Logical Framework Simplified](logical-framework-simplified.png)
 
+A simplified visual of the problem and our setup is shown above. We have built a robust, performant evaluator which receives PyTorch/CUDA/Triton code, checks for correctness, runs performance tests, then returns back errors and metrics. The idea is that we can plug in an LLM-based system which iteratively improves the performance of the original PyTorch code by querying the evaluator in a loop, then eventually returns the most performant, valid solution.
+
+Using this setup, we develop a logical framework in which evolutionary, LLM-based multi-agent systems can operate. In particular, we identify key hyperparameters of these evolutionary strategies which impact the optimization process, such as the explore/exploit ratio, islands, mutation/crossover, and LLM-based error fixing.
+
+### PIKE-B (Branching Search)
+
+We initially developed PIKE-B, a hand-written, exploit-heavy, evolutionary strategy which operates in optimization rounds.
+
 ![PIKE-B Diagram](pike-b-diagram.png)
+
+PIKE-B spends a limited number of LLM queries on fixing errors using an error fixing agent (EFA). After a particular cutoff point, the best solutions from this round are ranked by runtime, then the top-k solutions are used as seeds for the next set of LLM queries. 
+
+We describe the strategy as exploit-heavy because it concentrates effort on the best existing solutions. As it turns out, we find this approach to work surprisingly well in our results. Prior works have proposed similar approaches, but we are especially interested in **why** it works so well.
+
+### PIKE-O (OpenEvolve)
+
+To explore the 
 
 ## Performance Results
 
@@ -54,7 +70,7 @@ Numerous prior works have shown effective LLM-based optimization systems that ta
 <!-- ![](pike-speedup-level-5.png) -->
 
 <div class="flex justify-center">
-  <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" width="520" />
+  <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" class="rounded-md" width="520" />
 </div>
 
 <!-- ![](pike-hist-1.png)
@@ -64,9 +80,9 @@ Numerous prior works have shown effective LLM-based optimization systems that ta
 ## Understanding the LLM-Generated Code
 
 <div class="flex justify-center">
-  <img src="pike-hist-1.png" alt="PIKE code histograms 1" width="500" />
+  <img src="pike-hist-1.png" alt="PIKE code histograms 1" class="rounded-md" width="500" />
 </div>
 
 <div class="flex justify-center">
-  <img src="pike-hist-2.png" alt="PIKE code histograms 2" width="500" />
+  <img src="pike-hist-2.png" alt="PIKE code histograms 2" class="rounded-md" width="500" />
 </div>
