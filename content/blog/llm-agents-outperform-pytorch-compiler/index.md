@@ -2,7 +2,7 @@
 title: "How LLM-Based Agents Outperform the PyTorch Compiler by 2×"
 # title: "LLM-Based Agents Can Outperform the PyTorch Compiler by 2×"
 description: "Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve."
-date: 2025-12-12
+date: 2025-12-14
 draft: false
 showAuthor: false
 ---
