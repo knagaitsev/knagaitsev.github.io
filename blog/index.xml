@@ -9,7 +9,17 @@
     <managingEditor>knagaitsev@u.northwestern.edu (Kirill Nagaitsev)</managingEditor>
     <webMaster>knagaitsev@u.northwestern.edu (Kirill Nagaitsev)</webMaster>
     <copyright>© 2025 Kirill Nagaitsev</copyright>
-    <atom:link href="https://example.org/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://example.org/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How LLM-Based Agents Outperform the PyTorch Compiler by 2×</title>
+      <link>https://example.org/blog/llm-agents-outperform-pytorch-compiler/</link>
+      <pubDate>Fri, 12 Dec 2025 00:00:00 +0000</pubDate>
+      <author>knagaitsev@u.northwestern.edu (Kirill Nagaitsev)</author>
+      <guid>https://example.org/blog/llm-agents-outperform-pytorch-compiler/</guid>
+      <description></description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://example.org/blog/llm-agents-outperform-pytorch-compiler/featured.png" />
+    </item>
     
   </channel>
 </rss>

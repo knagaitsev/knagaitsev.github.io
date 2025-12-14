@@ -1,0 +1,1135 @@
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="en">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>How LLM-Based Agents Outperform the PyTorch Compiler by 2× &middot; Kirill Nagaitsev</title>
+    <meta name="title" content="How LLM-Based Agents Outperform the PyTorch Compiler by 2× &middot; Kirill Nagaitsev">
+  
+
+  
+  
+    <meta name="description" content="Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve.">
+  
+  
+  
+  
+  <link rel="canonical" href="https://example.org/blog/llm-agents-outperform-pytorch-compiler/">
+  
+
+  
+  
+    <meta name="author" content="Kirill Nagaitsev">
+  
+  
+    
+      
+        
+          <link href="https://github.com/knagaitsev" rel="me">
+        
+      
+    
+      
+        
+          <link href="https://linkedin.com/in/kirn/" rel="me">
+        
+      
+    
+  
+
+  
+  <meta property="og:url" content="https://example.org/blog/llm-agents-outperform-pytorch-compiler/">
+  <meta property="og:site_name" content="Kirill Nagaitsev">
+  <meta property="og:title" content="How LLM-Based Agents Outperform the PyTorch Compiler by 2×">
+  <meta property="og:description" content="Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-12-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-12T00:00:00+00:00">
+    <meta property="og:image" content="https://example.org/blog/llm-agents-outperform-pytorch-compiler/featured.png">
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://example.org/blog/llm-agents-outperform-pytorch-compiler/featured.png">
+  <meta name="twitter:title" content="How LLM-Based Agents Outperform the PyTorch Compiler by 2×">
+  <meta name="twitter:description" content="Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+  
+    
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.2ff651b81ef2a7e80519bed07dc7e4e54adfafcfddd25caccd7a87389e253d2a7a4e4cdc0786bc6861dd3923041fddf5941d243a2c6574922e1de2d221dca125.css"
+    integrity="sha512-L/ZRuB7yp&#43;gFGb7Qfcfk5Urfr8/d0lyszXqHOJ4lPSp6TkzcB4a8aGHdOSMEH931lB0kOixldJIuHeLSIdyhJQ==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.6f41174b3a05b680820fe08cadbfa5fb7a7ca347b76a0955cdc68b9d8aca1ce24f0547e138cea33bcc7904d551a90afcb1cc7f2d9fe8557075d501419046c08c.js"
+    integrity="sha512-b0EXSzoFtoCCD&#43;CMrb&#43;l&#43;3p8o0e3aglVzcaLnYrKHOJPBUfhOM6jO8x5BNVRqQr8scx/LZ/oVXB11QFBkEbAjA=="></script>
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+    
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.9cc03e4eb5473cb6919951f31f550226ce1e51f8c925b27f73b044872bfa9f57ad207cfb3303019af3dff9273bd762127af3d064e9bf98db340690055835606a.js"
+      integrity="sha512-nMA&#43;TrVHPLaRmVHzH1UCJs4eUfjJJbJ/c7BEhyv6n1etIHz7MwMBmvPf&#43;Sc712ISevPQZOm/mNs0BpAFWDVgag=="
+      data-copy="Copy"
+      data-copied="Copied"></script>
+  
+
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Blog",
+    "name": "How LLM-Based Agents Outperform the PyTorch Compiler by 2×",
+    "headline": "How LLM-Based Agents Outperform the PyTorch Compiler by 2×",
+    "description": "Our LLM-based, multi-agent PyTorch optimization system achieves up to 2.88× speedup over PyTorch eager. We present a logical framework for comparing multi-agent evolutionary optimization systems, and explore the configuration space for PyTorch and GPU performance optimization, with the help of OpenEvolve.",
+    
+    "inLanguage": "en",
+    "url" : "https://example.org/blog/llm-agents-outperform-pytorch-compiler/",
+    "author" : {
+      "@type": "Person",
+      "name": "Kirill Nagaitsev"
+    },
+    "copyrightYear": "2025",
+    "dateCreated": "2025-12-12T00:00:00\u002b00:00",
+    "datePublished": "2025-12-12T00:00:00\u002b00:00",
+    
+    "dateModified": "2025-12-12T00:00:00\u002b00:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1258"
+  }]
+  </script>
+
+
+
+  
+  
+    
+
+
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+    
+    
+      <div class="min-h-[148px]"></div>
+<div class="fixed inset-x-0 z-100">
+  <div
+    id="menu-blur"
+    class="absolute opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom backdrop-blur-2xl shadow-2xl"></div>
+  <div class="relative m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div
+  class="main-menu flex items-center justify-between py-6 md:justify-start gap-x-3 pt-[2px] pr-2 md:pr-4 pb-[3px] pl-0">
+  
+  
+    
+    
+      <div>
+        <a href="/" class="flex">
+          <span class="sr-only">Kirill Nagaitsev</span>
+          
+            <span class="logo object-scale-down object-left nozoom">
+              <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="240" height="240" rx="24" fill="#3F599C"/>
+<path d="M38.4858 178V79.0909H62.392V120.915H63.696L96.392 79.0909H124.548L89.4858 123.233L125.176 178H96.5852L71.9545 139.122L62.392 151.196V178H38.4858ZM218.157 79.0909V178H197.873L158.512 120.915H157.884V178H133.978V79.0909H154.552L193.478 136.08H194.299V79.0909H218.157Z" fill="#F6F6F6"/>
+</svg>
+
+            </span>
+          
+        </a>
+      </div>
+    
+
+  <div class="flex flex-1 items-center justify-between">
+    <nav class="flex space-x-3">
+      
+        <a href="/" class="text-base font-medium">
+          Kirill Nagaitsev
+        </a>
+      
+    </nav>
+    
+  <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+    
+      
+        
+  <a
+  href="/#publications"
+  
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="Publications"
+  title="">
+  
+  
+    <p class="text-base font-medium">
+      Publications
+    </p>
+  
+</a>
+
+
+
+      
+        
+  <a
+  href="/blog/"
+  
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="Blog"
+  title="Blog">
+  
+  
+    <p class="text-base font-medium">
+      Blog
+    </p>
+  
+</a>
+
+
+
+      
+        
+  <a
+  href="https://github.com/knagaitsev"
+  target="_blank"
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="github"
+  title="">
+  
+    <span >
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span>
+    </span>
+  
+  
+</a>
+
+
+
+      
+        
+  <a
+  href="https://www.linkedin.com/in/kirn/"
+  target="_blank"
+  class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+  aria-label="linkedin"
+  title="">
+  
+    <span >
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span>
+    </span>
+  
+  
+</a>
+
+
+
+      
+    
+
+    
+
+    
+
+    
+
+    
+  </nav>
+
+    
+  <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+    <span></span>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  </div>
+  
+  <div class="-my-2 md:hidden">
+    <div id="menu-button" class="block">
+      
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50 pt-[5px]">
+          <ul
+            class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none text-end max-w-7xl">
+            <li id="menu-close-button">
+              <span
+                class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+                <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+              </span>
+            </li>
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="/#publications"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="Publications"
+    title="">
+    
+    
+      <p class="text-bg font-bg">
+        Publications
+      </p>
+    
+  </a>
+</li>
+
+
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="/blog/"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="Blog"
+    title="Blog">
+    
+    
+      <p class="text-bg font-bg">
+        Blog
+      </p>
+    
+  </a>
+</li>
+
+
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="https://github.com/knagaitsev"
+    
+      target="_blank"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="github"
+    title="">
+    
+      <div >
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span>
+      </div>
+    
+    
+  </a>
+</li>
+
+
+
+            
+              
+  <li class="mt-1">
+  <a
+    href="https://www.linkedin.com/in/kirn/"
+    
+      target="_blank"
+    
+    class="flex items-center hover:text-primary-600 dark:hover:text-primary-400"
+    aria-label="linkedin"
+    title="">
+    
+      <div >
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+</span>
+      </div>
+    
+    
+  </a>
+</li>
+
+
+
+            
+
+          </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<script
+  type="text/javascript"
+  src="/js/background-blur.min.00a57c73ea12f2cab2980c3c3d649e89f6d82f190f74bbe2b67f2f5e39ab7d032ece47086400ca05396758aace13299da49aca43ea643d2625e62c506267a169.js"
+  integrity="sha512-AKV8c&#43;oS8sqymAw8PWSeifbYLxkPdLvitn8vXjmrfQMuzkcIZADKBTlnWKrOEymdpJrKQ&#43;pkPSYl5ixQYmehaQ=="
+  data-blur-id="menu-blur"></script>
+
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        How LLM-Based Agents Outperform the PyTorch Compiler by 2×
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2025-12-12T00:00:00&#43;00:00">12 December 2025</time>
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+
+  
+  
+
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+        <div class="order-first lg:ml-auto px-0 lg:order-last lg:ps-8 lg:max-w-2xs">
+          <div class="toc ps-5 print:hidden lg:sticky lg:top-[140px]">
+            
+              <details
+  open
+  id="TOCView"
+  class="toc-right mt-0 overflow-y-auto overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg -ms-5 ps-5 pe-2 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#gpu-optimization-problem">GPU Optimization Problem</a></li>
+    <li><a href="#our-solution">Our Solution</a>
+      <ul>
+        <li><a href="#pike-b-branching-search">PIKE-B (Branching Search)</a></li>
+        <li><a href="#pike-o-openevolve">PIKE-O (OpenEvolve)</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a>
+      <ul>
+        <li><a href="#speedup-trajectories">Speedup Trajectories</a></li>
+        <li><a href="#overall-speedups-and-ablations">Overall Speedups and Ablations</a></li>
+      </ul>
+    </li>
+    <li><a href="#key-takeaways">Key Takeaways</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg -ms-5 ps-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 -ms-5 ps-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 border-s-1 -ms-5 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#gpu-optimization-problem">GPU Optimization Problem</a></li>
+    <li><a href="#our-solution">Our Solution</a>
+      <ul>
+        <li><a href="#pike-b-branching-search">PIKE-B (Branching Search)</a></li>
+        <li><a href="#pike-o-openevolve">PIKE-O (OpenEvolve)</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a>
+      <ul>
+        <li><a href="#speedup-trajectories">Speedup Trajectories</a></li>
+        <li><a href="#overall-speedups-and-ablations">Overall Speedups and Ablations</a></li>
+      </ul>
+    </li>
+    <li><a href="#key-takeaways">Key Takeaways</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+
+<script>
+  (function () {
+    'use strict'
+
+    const SCROLL_OFFSET_RATIO = 0.33
+    const TOC_SELECTOR = '#TableOfContents'
+    const ANCHOR_SELECTOR = '.anchor'
+    const TOC_LINK_SELECTOR = 'a[href^="#"]'
+    const NESTED_LIST_SELECTOR = 'li ul'
+    const ACTIVE_CLASS = 'active'
+    let isJumpingToAnchor = false
+
+    function getActiveAnchorId(anchors, offsetRatio) {
+      const threshold = window.scrollY + window.innerHeight * offsetRatio
+      const tocLinks = [...document.querySelectorAll('#TableOfContents a[href^="#"]')]
+      const tocIds = new Set(tocLinks.map(link => link.getAttribute('href').substring(1)))
+
+      if (isJumpingToAnchor) {
+        for (let i = 0; i < anchors.length; i++) {
+          const anchor = anchors[i]
+          if (!tocIds.has(anchor.id)) continue
+          const top = anchor.getBoundingClientRect().top + window.scrollY
+          if (Math.abs(window.scrollY - top) < 100) {
+            return anchor.id
+          }
+        }
+      }
+
+      for (let i = anchors.length - 1; i >= 0; i--) {
+        const top = anchors[i].getBoundingClientRect().top + window.scrollY
+        if (top <= threshold && tocIds.has(anchors[i].id)) {
+          return anchors[i].id
+        }
+      }
+      return anchors.find(anchor => tocIds.has(anchor.id))?.id || ''
+    }
+
+    function updateTOC({ toc, anchors, links, scrollOffset, collapseInactive }) {
+      const activeId = getActiveAnchorId(anchors, scrollOffset)
+      if (!activeId) return
+
+      links.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${activeId}`
+        link.classList.toggle(ACTIVE_CLASS, isActive)
+
+        if (collapseInactive) {
+          const ul = link.closest('li')?.querySelector('ul')
+          if (ul) ul.style.display = isActive ? '' : 'none'
+        }
+      })
+
+      if (collapseInactive) {
+        const activeLink = toc.querySelector(`a[href="#${CSS.escape(activeId)}"]`)
+        let el = activeLink
+        while (el && el !== toc) {
+          if (el.tagName === 'UL') el.style.display = ''
+          if (el.tagName === 'LI') el.querySelector('ul')?.style.setProperty('display', '')
+          el = el.parentElement
+        }
+      }
+    }
+
+    function initTOC() {
+      const toc = document.querySelector(TOC_SELECTOR)
+      if (!toc) return
+
+      const collapseInactive = false
+      const anchors = [...document.querySelectorAll(ANCHOR_SELECTOR)]
+      const links = [...toc.querySelectorAll(TOC_LINK_SELECTOR)]
+
+      if (collapseInactive) {
+        toc.querySelectorAll(NESTED_LIST_SELECTOR).forEach(ul => ul.style.display = 'none')
+      }
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          isJumpingToAnchor = true
+        })
+      })
+
+      const config = {
+        toc,
+        anchors,
+        links,
+        scrollOffset: SCROLL_OFFSET_RATIO,
+        collapseInactive
+      }
+
+      window.addEventListener('scroll', () => updateTOC(config), { passive: true })
+      window.addEventListener('hashchange', () => updateTOC(config), { passive: true })
+
+      updateTOC(config)
+    }
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', initTOC)
+      : initTOC()
+  })()
+</script>
+
+
+            
+          </div>
+        </div>
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+
+        <div class="article-content max-w-prose mb-20">
+          <p>This post gives an overview of our recent paper preprint, <em><a
+  href="https://arxiv.org/abs/2511.16964"
+    target="_blank"
+  >Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems</a></em>, which I authored along with <a
+  href="https://lukagrbcic.github.io/"
+    target="_blank"
+  >Luka Grbcic</a>, <a
+  href="https://profiles.lbl.gov/20370-samuel-williams"
+    target="_blank"
+  >Samuel Williams</a>, and <a
+  href="https://www.linkedin.com/in/costin-iancu-5a8b011/"
+    target="_blank"
+  >Costin Iancu</a>.</p>
+<p>We introduce a logical framework for comparing multi-agent PyTorch optimization systems, along with our implementations within it, which we collectively call <em>PyTorch Inference Kernel Evolution</em> (PIKE). The <a
+  href="https://github.com/pike-project/pike"
+    target="_blank"
+  >PIKE code</a> has been made open-source on GitHub. We explore the configuration space with the help of <a
+  href="https://github.com/algorithmicsuperintelligence/openevolve"
+    target="_blank"
+  >OpenEvolve</a>, and we manage to outperform PyTorch&rsquo;s eager execution mode by up to 2.88×!</p>
+
+<h2 class="relative group">GPU Optimization Problem
+    <div id="gpu-optimization-problem" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#gpu-optimization-problem" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>New generations of AI datacenter GPUs are now being rolled out on an annual basis, forcing software support to play a constant game of catch-up. To make the problem worse, new AI/ML model techniques are being proposed constantly. This leads to a set of workloads that library/compiler engineers are unlikely to optimize for, unless an idea gains a lot of traction from the community.</p>
+<!-- GPU performance optimization using CUDA or Triton is a notoriously challenging process. This is why software lags behind the latest generation of NVIDIA GPUs, and ML library/compiler engineers are forced to optimize only for the most critical workloads. -->
+<p>Without excellent library/compiler support, demonstrating good performance for a new idea could mean tons of manual GPU programming. Thus, it&rsquo;s getting harder for AI/ML researchers to challenge conventional wisdom.</p>
+<p>To name one example, in December 2022, <a
+  href="https://arxiv.org/abs/2212.14052"
+    target="_blank"
+  >H3</a> showed the viability of replacing the standard Transformer architecture in language modeling with a hybrid architecture that integrates state space model (SSM) layers. However, achieving competitive performance in their paper required the authors to develop complex, novel GPU kernels.
+Adoption of the idea into modern LLM inference engines took <strong>3 years</strong>, mainly because of GPU memory management challenges [<a
+  href="https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/"
+    target="_blank"
+  >vLLM announcement</a>, <a
+  href="https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/"
+    target="_blank"
+  >SGLang announcement</a>].</p>
+<!-- The idea is **only now** being adopted into modern LLM inference engines, and doing so took **3 years** mainly due to GPU memory management adjustments [[vLLM announcement](https://pytorch.org/blog/hybrid-models-as-first-class-citizens-in-vllm/), [SGLang announcement](https://pytorch.org/blog/hybrid-models-meet-sglang-more-than-full-attention/)]. -->
+<!-- Furthermore, adoption on mainstream LLM inference engines took 3 years, -->
+<p>Can we find a way to eliminate manual GPU performance engineering from the equation using LLMs, and what would such a system look like?</p>
+
+<h2 class="relative group">Our Solution
+    <div id="our-solution" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#our-solution" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Our target GPU was an NVIDIA H100. We used a modified version of <a
+  href="https://arxiv.org/abs/2502.10517"
+    target="_blank"
+  >KernelBench</a>, a benchmark suite covering a range of machine learning architectures in PyTorch. We target these key levels from the suite:</p>
+<ul>
+<li><strong>Level 3 (Curated blocks from older models):</strong> RNNs, Attention, Convolutions</li>
+<li><strong>Level 5 (Frontier workloads from SOTA 2024 models):</strong> DeepSeek-V3, Llama 3, Mamba-2, Hunyuan Video</li>
+</ul>
+<p>Many prior works have shown effective LLM-based optimization systems that target KernelBench tasks, but the dynamics of multi-agent systems for this performance engineering problem remain unexplored. We developed a logical framework to analyze these systems and fill the gap!</p>
+<!-- As new generations of GPUs roll out, and new AI model techniques are proposed, we are met with a constant dilemma: how do we keep up with  -->
+<!-- Thus, GPU performance optimization has become a crucial aspect of modern AI inference.  -->
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="logical-framework-simplified.png" alt="PIKE Logical Framework Simplified" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 1: Simplified visual of the problem and our setup</p>
+</div>
+<p>We built a robust, performant evaluator that gets PyTorch/CUDA/Triton code, checks for correctness, runs performance tests, then returns back errors and metrics. The idea is that we can plug in an LLM-based system that iteratively improves the performance of the original PyTorch code by querying the evaluator in a loop, then eventually returns the fastest valid solution.</p>
+<p>Using this setup, we developed a logical framework where evolutionary, LLM-based multi-agent systems can operate. Then, we identified some key hyperparameters of these evolutionary strategies that impact the optimization process, such as the explore/exploit ratio, islands, mutation/crossover, and LLM-based error fixing.</p>
+
+<h3 class="relative group">PIKE-B (Branching Search)
+    <div id="pike-b-branching-search" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#pike-b-branching-search" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>We initially developed PIKE-B, a hand-written, exploit-heavy, evolutionary strategy that operates in optimization rounds.</p>
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-b-diagram.png" alt="PIKE-B Diagram" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 2: PIKE-B branching search strategy diagram</p>
+</div>
+<p>PIKE-B spends a limited number of LLM queries on fixing errors using an error fixing agent (EFA). After a cutoff point, the best solutions from this round are ranked by runtime, then the top-k solutions are used as seeds for the next set of LLM queries.</p>
+<p>We call the strategy &ldquo;exploit-heavy&rdquo; because it concentrates effort on the best existing solutions. As it turns out, we find this approach to work surprisingly well in our results. Prior works have proposed similar approaches, but we are especially interested in <strong>why</strong> it works so well.</p>
+
+<h3 class="relative group">PIKE-O (OpenEvolve)
+    <div id="pike-o-openevolve" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#pike-o-openevolve" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>To explore the hyperparameter space and understand what makes PIKE-B an effective strategy, we used <a
+  href="https://github.com/algorithmicsuperintelligence/openevolve"
+    target="_blank"
+  >OpenEvolve</a>, an open-source framework for LLM-based code evolution inspired by <a
+  href="https://arxiv.org/abs/2506.13131"
+    target="_blank"
+  >AlphaEvolve</a>. OpenEvolve made it simple to tune hyperparameters of the optimization process, and it fits cleanly into our logical framework.</p>
+<p><strong>Importantly, OpenEvolve contains:</strong></p>
+<ul>
+<li>island-based evolution</li>
+<li>explore/exploit ratio settings</li>
+<li>solution library configuration settings</li>
+</ul>
+<p>We modified OpenEvolve to incorporate LLM-based error fixing. We then applied a bunch of OpenEvolve configurations to KernelBench to better understand agent framework behavior.</p>
+
+<h2 class="relative group">Results
+    <div id="results" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#results" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>We measured the performance of PIKE solutions against the original models (with PyTorch eager). We measured cost in 2 ways: LLM query count per task, and cost in $ per task for LLM queries.</p>
+
+<h3 class="relative group">Speedup Trajectories
+    <div id="speedup-trajectories" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#speedup-trajectories" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>For each PIKE implementation, we used the best solution generated within the current budget per task. We did this up to a budget of 300 queries per task, or around $25/task on Level 3. Gemini 2.5 Pro was used everywhere, except for the cheap error fixing agent (EFA), where we used Gemini 2.5 Flash. Keep in mind, EFA uses a portion of the LLM budget too.</p>
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-cost-level-3-pike.png" alt="PIKE Level 3-pike Cost Graph" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 3: Geomean speedups over PyTorch eager for our <strong>filtered Level 3</strong>, varying budget per task</p>
+</div>
+<p>The default PIKE-O approach is quite explore-heavy. We ran a series of ablations to make it functionally equivalent to PIKE-B, shown in PIKE-O (mut,npar,1isl,EO,SL).</p>
+<p>Interestingly, approaches without EFA do poorly, relative to those with EFA. Cheap EFA is cost effective here, and exploit-heavy strategies offer the best performance gains.</p>
+
+<h3 class="relative group">Overall Speedups and Ablations
+    <div id="overall-speedups-and-ablations" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#overall-speedups-and-ablations" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>We ran ablations to dig deeper into multi-agent behavior for the task at hand. Note: we don&rsquo;t evaluate all combinatorial versions, since end-to-end runs are expensive and time-consuming.</p>
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-speedup-level-3-pike.png" alt="PIKE Level 3-pike Speedup" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 4: Speedups over PyTorch eager for our <strong>filtered Level 3</strong> are shown above. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $25/task.</p>
+</div>
+<p>The series of PIKE-O ablations shifts PIKE-O from being an explore-heavy strategy towards being an exploit-heavy strategy, with PIKE-O (mut,npar,1isl,EO,SL) being virtually equivalent to PIKE-B without IBA (initial brainstorming agent). As we should expect, this PIKE-O variant displays very similar performance to PIKE-B and PIKE-B (no IBA).</p>
+<p>The <em>&ldquo;1isl&rdquo;</em> parameter changes PIKE-O from having 3 islands to just 1 island, and a notable change in performance shows up at that ablation step. Reducing the evolutionary exploration to one island makes this an exploit-focused process, and we can see this leads to a big performance boost. Clearly, worrying about early convergence is not worth it in our budget range!</p>
+<!-- ![](pike-speedup-level-5.png) -->
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" class="rounded-md mt-0 mb-0" width="520" />
+  </div>
+  <p>Figure 5: Speedups over PyTorch eager for <strong>Level 5</strong> are shown above for a limited set of our implementations. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $50/task.</p>
+</div>
+<p>Similar to our Level 3 results, PIKE implementations perform much better than PyTorch eager and other competitors, including ~2× over <code>torch.compile</code>! The difference in PIKE-O variants is more subtle on these challenging tasks.</p>
+<!-- ![](pike-hist-1.png)
+
+![](pike-hist-2.png) -->
+<!-- ## Understanding the LLM-Generated Code
+
+<div class="flex justify-center">
+  <img src="pike-hist-1.png" alt="PIKE code histograms 1" class="rounded-md" width="500" />
+</div>
+
+<div class="flex justify-center">
+  <img src="pike-hist-2.png" alt="PIKE code histograms 2" class="rounded-md" width="500" />
+</div> -->
+
+<h2 class="relative group">Key Takeaways
+    <div id="key-takeaways" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#key-takeaways" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Based on results shown here and in the paper:</p>
+<ul>
+<li>it is worth it to spend some of your budget on error fixing agents</li>
+<li>using a cheap error fixing LLM can be cost effective, alongside a more powerful model for actual code optimization</li>
+<li>exploit-heavy strategies (e.g. reducing island count to 1) are favorable under the budget we explored</li>
+<li>performance correlates with the granularity of optimization steps (see <a
+  href="https://arxiv.org/abs/2511.16964"
+    target="_blank"
+  >the paper</a> for more details)</li>
+</ul>
+<p>We&rsquo;ve demonstrated that LLM-based multi-agent systems show great promise in mitigating the GPU optimization dilemma. More importantly, we&rsquo;ve learned a bit about how to characterize multi-agent systems, and why certain configurations perform better than others! If you found our work useful, consider citing the paper:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bibtex" data-lang="bibtex"><span class="line"><span class="cl"><span class="nc">@misc</span><span class="p">{</span><span class="nl">nagaitsev2025pike</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">title</span><span class="p">=</span><span class="s">{Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems}</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="na">author</span><span class="p">=</span><span class="s">{Kirill Nagaitsev and Luka Grbcic and Samuel Williams and Costin Iancu}</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">year</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">eprint</span><span class="p">=</span><span class="s">{2511.16964}</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.MA}</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="na">url</span><span class="p">=</span><span class="s">{https://arxiv.org/abs/2511.16964}</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<p><em>Note: a similar version of this article has been cross-posted on the <a
+  href="https://algorithmicsuperintelligence.ai/blog/index.html"
+    target="_blank"
+  >OpenEvolve blog</a></em></p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+
+        
+
+      </div>
+
+      
+      
+        
+        
+          
+          
+        
+        
+        
+        <script
+          type="text/javascript"
+          src="/js/page.min.54b6f4371722649edbe871e431d8670d670878c22be8f36e229fe53cc9b786fe25a834def5e6de621f7a3e37b72bc8cd73839aa5ed907ed6cbd45cd3e1b0fa20.js"
+          integrity="sha512-VLb0NxciZJ7b6HHkMdhnDWcIeMIr6PNuIp/lPMm3hv4lqDTe9ebeYh96Pje3K8jNc4Oape2QftbL1FzT4bD6IA=="
+          data-oid="views_blog/llm-agents-outperform-pytorch-compiler/index.md"
+          data-oid-likes="likes_blog/llm-agents-outperform-pytorch-compiler/index.md"></script>
+      
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-center">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2025
+          Kirill Nagaitsev
+      </p>
+    
+
+    
+    
+  </div>
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js"
+    integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+
+    </div>
+  </body>
+  
+</html>

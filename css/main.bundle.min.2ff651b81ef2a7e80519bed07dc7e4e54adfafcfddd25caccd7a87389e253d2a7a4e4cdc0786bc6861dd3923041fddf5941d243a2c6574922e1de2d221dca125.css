@@ -3838,4 +3838,4 @@
       --tw-outline-style: solid;
     }
   }
-}.prose:not(.max-w-full){max-width:70ch !important}.dark\:prose-invert .publications-container a{text-decoration-color:rgba(var(--color-primary-400),1)}.logo svg{max-height:3.3rem;max-width:2.25rem;transition:transform .2s ease}.logo:hover svg{transform:scale(1.08)}
+}.prose:not(.max-w-full){max-width:70ch !important}.dark\:prose-invert .publications-container a{text-decoration-color:rgba(var(--color-primary-400),1)}.logo svg{max-height:3.3rem;max-width:2.25rem;transition:transform .2s ease}.logo:hover svg{transform:scale(1.08)}.thumbnail_card{min-width:auto !important}div.figure p{margin-top:.5rem;color:rgba(var(--color-neutral-400),1);font-size:.9rem;font-style:italic}div.figure p strong{color:rgba(var(--color-neutral-400),1)}
