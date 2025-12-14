@@ -41,9 +41,14 @@ Many prior works have shown effective LLM-based optimization systems that target
 
 <!-- Thus, GPU performance optimization has become a crucial aspect of modern AI inference.  -->
 
-![PIKE Logical Framework Simplified](logical-framework-simplified.png)
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="logical-framework-simplified.png" alt="PIKE Logical Framework Simplified" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 1: Simplified visual of the problem and our setup</p>
+</div>
 
-Here's a simplified visual of the problem and our setup. We built a robust, performant evaluator that gets PyTorch/CUDA/Triton code, checks for correctness, runs performance tests, then returns back errors and metrics. The idea is that we can plug in an LLM-based system that iteratively improves the performance of the original PyTorch code by querying the evaluator in a loop, then eventually returns the fastest valid solution.
+We built a robust, performant evaluator that gets PyTorch/CUDA/Triton code, checks for correctness, runs performance tests, then returns back errors and metrics. The idea is that we can plug in an LLM-based system that iteratively improves the performance of the original PyTorch code by querying the evaluator in a loop, then eventually returns the fastest valid solution.
 
 Using this setup, we developed a logical framework where evolutionary, LLM-based multi-agent systems can operate. Then, we identified some key hyperparameters of these evolutionary strategies that impact the optimization process, such as the explore/exploit ratio, islands, mutation/crossover, and LLM-based error fixing.
 
@@ -51,7 +56,12 @@ Using this setup, we developed a logical framework where evolutionary, LLM-based
 
 We initially developed PIKE-B, a hand-written, exploit-heavy, evolutionary strategy that operates in optimization rounds.
 
-![PIKE-B Diagram](pike-b-diagram.png)
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-b-diagram.png" alt="PIKE-B Diagram" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 2: PIKE-B branching search strategy diagram</p>
+</div>
 
 PIKE-B spends a limited number of LLM queries on fixing errors using an error fixing agent (EFA). After a cutoff point, the best solutions from this round are ranked by runtime, then the top-k solutions are used as seeds for the next set of LLM queries. 
 
@@ -75,11 +85,16 @@ We measured the performance of PIKE solutions against the original models (with 
 
 ### Speedup Trajectories
 
-For each PIKE implementation, we used the best solution generated within the current budget per task. We did this up to a budget of 300 queries per task, or around $25/task. Gemini 2.5 Pro was used everywhere, except for the cheap error fixing agent (EFA), where we used Gemini 2.5 Flash. Keep in mind, EFA uses a portion of the LLM budget too.
+For each PIKE implementation, we used the best solution generated within the current budget per task. We did this up to a budget of 300 queries per task, or around $25/task on Level 3. Gemini 2.5 Pro was used everywhere, except for the cheap error fixing agent (EFA), where we used Gemini 2.5 Flash. Keep in mind, EFA uses a portion of the LLM budget too.
 
-![PIKE Level 3-pike Cost Graph](pike-cost-level-3-pike.png)
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-cost-level-3-pike.png" alt="PIKE Level 3-pike Cost Graph" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 3: Geomean speedups over PyTorch eager for our <strong>filtered Level 3</strong>, varying budget per task</p>
+</div>
 
-Geomean speedups for our filtered Level 3 are shown above. The default PIKE-O approach is quite explore-heavy. We ran a series of ablations to make it functionally equivalent to PIKE-B, shown in PIKE-O (mut,npar,1isl,EO,SL).
+The default PIKE-O approach is quite explore-heavy. We ran a series of ablations to make it functionally equivalent to PIKE-B, shown in PIKE-O (mut,npar,1isl,EO,SL).
 
 Interestingly, approaches without EFA do poorly, relative to those with EFA. Cheap EFA is cost effective here, and exploit-heavy strategies offer the best performance gains.
 
@@ -87,9 +102,12 @@ Interestingly, approaches without EFA do poorly, relative to those with EFA. Che
 
 We ran ablations to dig deeper into multi-agent behavior for the task at hand. Note: we don't evaluate all combinatorial versions, since end-to-end runs are expensive and time-consuming.
 
-![PIKE Level 3-pike Speedup](pike-speedup-level-3-pike.png)
-
-Speedups over PyTorch eager for our **modified Level 3** are shown above. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $25/task.
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-speedup-level-3-pike.png" alt="PIKE Level 3-pike Speedup" class="rounded-md mt-0 mb-0" />
+  </div>
+  <p>Figure 4: Speedups over PyTorch eager for our <strong>filtered Level 3</strong> are shown above. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $25/task.</p>
+</div>
 
 The series of PIKE-O ablations shifts PIKE-O from being an explore-heavy strategy towards being an exploit-heavy strategy, with PIKE-O (mut,npar,1isl,EO,SL) being virtually equivalent to PIKE-B without IBA (initial brainstorming agent). As we should expect, this PIKE-O variant displays very similar performance to PIKE-B and PIKE-B (no IBA).
 
@@ -97,11 +115,12 @@ The *"1isl"* parameter changes PIKE-O from having 3 islands to just 1 island, an
 
 <!-- ![](pike-speedup-level-5.png) -->
 
-<div class="flex justify-center">
-  <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" class="rounded-md" width="520" />
+<div class="figure">
+  <div class="flex justify-center">
+    <img src="pike-speedup-level-5.png" alt="PIKE Level 5 Speedup" class="rounded-md mt-0 mb-0" width="520" />
+  </div>
+  <p>Figure 5: Speedups over PyTorch eager for <strong>Level 5</strong> are shown above for a limited set of our implementations. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $50/task.</p>
 </div>
-
-Speedups over PyTorch eager for **Level 5** are shown above for a limited set of our implementations. The full bar shows a budget of 300 LLM queries per task, and the dashed lines show $50/task.
 
 Similar to our Level 3 results, PIKE implementations perform much better than PyTorch eager and other competitors, including ~2× over `torch.compile`! The difference in PIKE-O variants is more subtle on these challenging tasks.
 

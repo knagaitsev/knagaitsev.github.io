@@ -22,3 +22,14 @@
 .thumbnail_card {
   min-width: auto !important;
 }
+
+div.figure p {
+  margin-top: 0.5rem;
+  color: rgba(var(--color-neutral-400), 1);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+div.figure p strong {
+  color: rgba(var(--color-neutral-400), 1);
+}
