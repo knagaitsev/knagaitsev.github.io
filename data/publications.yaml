@@ -1,6 +1,6 @@
 - title: "Optimizing PyTorch Inference with LLM-Based Multi-Agent Systems"
   authors: "<b>Kirill Nagaitsev</b>, Luka Grbcic, Samuel Williams, Costin Iancu"
-  date: "2025-05-18"
+  date: "2026-05-18"
   label: "MLSys 26"
   link: "https://proceedings.mlsys.org/paper_files/paper/2026/file/bd49b53516ce9ea248fb73522d71a508-Paper-Conference.pdf"
   github: "https://github.com/pike-project/pike"
